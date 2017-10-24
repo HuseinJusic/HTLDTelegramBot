@@ -64,7 +64,7 @@ public class DBHandler extends DBConnection {
             pstmt.setString(4, u.getKlass());
             pstmt.setString(5, u.getDstation());
             pstmt.execute();
-            
+
 
         } catch (SQLException e) {
             e.printStackTrace();
