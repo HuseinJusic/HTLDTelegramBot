@@ -41,7 +41,7 @@ public class DBHandler extends DBConnection {
                 u.setDstation(rset.getString("dstation"));
 
             } else {
-                throw new SQLException("not data found for key " + chat_id);
+               return null;
             }
         } finally {
 
