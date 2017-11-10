@@ -1,6 +1,7 @@
 package at.htld.modules.handler;
 
 import at.htld.common.DBConnection;
+import at.htld.modules.entitiy.Station;
 import at.htld.modules.entitiy.User;
 
 import java.sql.Connection;
@@ -38,7 +39,6 @@ public class DBHandler extends DBConnection {
                 u.setVname(rset.getString("vname"));
                 u.setNname(rset.getString("nname"));
                 u.setKlass(rset.getString("klass"));
-                u.setDstation(rset.getString("dstation"));
 
             } else {
                return null;
@@ -55,14 +55,13 @@ public class DBHandler extends DBConnection {
 
         try {
             pstmt = con.prepareStatement("insert into userdata "
-                    + " (chat_id,vname,nname,klass,dstation) values "
-                    + " (?, ?, ?, ?, ?)");
+                    + " (chat_id,vname,nname,klass) values "
+                    + " (?, ?, ?, ?)");
 
             pstmt.setLong(1, u.getChat_id());
             pstmt.setString(2, u.getVname());
             pstmt.setString(3, u.getNname());
             pstmt.setString(4, u.getKlass());
-            pstmt.setString(5, u.getDstation());
             pstmt.execute();
 
 
@@ -70,5 +69,19 @@ public class DBHandler extends DBConnection {
             e.printStackTrace();
         }
 
+    }
+    public void saveStation(Station s){
+        PreparedStatement pstmt;
+
+        try{
+            pstmt = con.prepareStatement("insert into station (chat_id, dstation, slink) values(?,?,?)");
+
+            pstmt.setLong(1, s.getChat_id());
+            pstmt.setString(2, s.getDstation());
+            pstmt.setString(3, s.getSlink());
+            pstmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

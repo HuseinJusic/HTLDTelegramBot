@@ -4,7 +4,6 @@ public class User {
     private long chat_id;
     private String vname;
     private String nname;
-    private String dstation;
     private String klass;
 
 
@@ -30,14 +29,6 @@ public class User {
 
     public void setNname(String nname) {
         this.nname = nname;
-    }
-
-    public String getDstation() {
-        return dstation;
-    }
-
-    public void setDstation(String dstation) {
-        this.dstation = dstation;
     }
 
     public String getKlass() {
