@@ -2,10 +2,12 @@ package at.htld.modules.main;
 
 import at.htld.modules.bot.HTLDTelegramBot;
 import at.htld.modules.handler.DBHandler;
+import at.htld.modules.handler.WebHandler;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class Main {
@@ -21,5 +23,12 @@ public class Main {
 
         System.out.println("Bot gestartet!");
 
+        WebHandler hand = new WebHandler();
+        System.out.println("web hand gestartet!");
+        try {
+            System.out.println(hand.getdefaultData());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

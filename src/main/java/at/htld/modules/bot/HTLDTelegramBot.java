@@ -60,6 +60,8 @@ public class HTLDTelegramBot extends TelegramLongPollingBot {
 
                 if(split_message.get(0).equals("/whoami")){
                     sd.setText("Name: " + user.getVname() + " Nachname: " + user.getNname() + " Klasse: " + user.getKlass());
+                }else{
+                    sd.setText("Befehle : /whoami ..");
                 }
             }
 
