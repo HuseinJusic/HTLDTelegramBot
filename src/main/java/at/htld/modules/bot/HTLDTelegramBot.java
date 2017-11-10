@@ -1,5 +1,6 @@
 package at.htld.modules.bot;
 
+import at.htld.modules.entitiy.Station;
 import at.htld.modules.entitiy.User;
 import at.htld.modules.handler.DBHandler;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -60,6 +61,16 @@ public class HTLDTelegramBot extends TelegramLongPollingBot {
 
                 if(split_message.get(0).equals("/whoami")){
                     sd.setText("Name: " + user.getVname() + " Nachname: " + user.getNname() + " Klasse: " + user.getKlass());
+                }else if(split_message.get(0).equals("/addstation")){
+                    Station station = new Station();
+                    station.setChat_id(chat_id);
+                    station.setDstation(split_message.get(1));
+                    station.setSlink(split_message.get(2));
+
+                    d.saveStation(station);
+
+                    sd.setText("Station gespeichert");
+
                 }else{
                     sd.setText("Befehle : /whoami ..");
                 }

@@ -26,6 +26,8 @@ insert into userdata (chat_id,vname,nname,klass) values (234567765,'husein','jus
 
 select * from userdata WHERE chat_id =234567765;
 
+use htldbot;
+
 drop table if exists station;
 create table station(
 s_id int not null AUTO_INCREMENT,
@@ -33,6 +35,7 @@ chat_id bigint not null,
 dstation varchar(50),
 slink varchar(100),
 
-Primary Key (s_id),
-FOREIGN KEY (chat_id) REFERENCES userdata(chat_id)
+Primary Key (s_id)
+#FOREIGN KEY (chat_id) REFERENCES userdata(chat_id)
 );
+select * from station;

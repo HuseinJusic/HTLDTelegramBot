@@ -37,4 +37,7 @@ public class Station {
     public void setSlink(String slink) {
         this.slink = slink;
     }
+
+    public void getSlink(String s) {
+    }
 }

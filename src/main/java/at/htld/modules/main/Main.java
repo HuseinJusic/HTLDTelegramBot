@@ -1,6 +1,8 @@
 package at.htld.modules.main;
 
 import at.htld.modules.bot.HTLDTelegramBot;
+import at.htld.modules.entitiy.Station;
+import at.htld.modules.entitiy.User;
 import at.htld.modules.handler.DBHandler;
 import at.htld.modules.handler.WebHandler;
 import org.telegram.telegrambots.ApiContextInitializer;
