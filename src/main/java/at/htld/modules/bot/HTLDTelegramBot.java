@@ -62,15 +62,16 @@ public class HTLDTelegramBot extends TelegramLongPollingBot {
                 if(split_message.get(0).equals("/whoami")){
                     sd.setText("Name: " + user.getVname() + " Nachname: " + user.getNname() + " Klasse: " + user.getKlass());
                 }else if(split_message.get(0).equals("/addstation")){
-                    Station station = new Station();
-                    station.setChat_id(chat_id);
-                    station.setDstation(split_message.get(1));
-                    station.setSlink(split_message.get(2));
+                    if(split_message.size() == 3) {
+                        Station station = new Station();
+                        station.setChat_id(chat_id);
+                        station.setDstation(split_message.get(1));
+                        station.setSlink(split_message.get(2));
 
-                    d.saveStation(station);
+                        d.saveStation(station);
 
-                    sd.setText("Station gespeichert");
-
+                        sd.setText("Station gespeichert");
+                    }else{sd.setText("Verwendung: /addstation [Name] [Link]");}
                 }else{
                     sd.setText("Befehle : /whoami ..");
                 }
