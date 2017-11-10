@@ -4,7 +4,7 @@ import at.htld.modules.bot.HTLDTelegramBot;
 import at.htld.modules.entitiy.Station;
 import at.htld.modules.entitiy.User;
 import at.htld.modules.handler.DBHandler;
-import at.htld.modules.handler.WebHandler;
+import at.htld.modules.handler.WeatherHandler;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
@@ -25,12 +25,13 @@ public class Main {
 
         System.out.println("Bot gestartet!");
 
-        WebHandler hand = new WebHandler();
-        System.out.println("web hand gestartet!");
+        WeatherHandler handler = new WeatherHandler();
+
         try {
-            System.out.println(hand.getdefaultData());
+            System.out.println(handler.getWeatherByCity("Bregenz"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 }
