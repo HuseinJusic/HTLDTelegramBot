@@ -3,11 +3,13 @@ package at.htld.modules.bot;
 import at.htld.modules.entitiy.Station;
 import at.htld.modules.entitiy.User;
 import at.htld.modules.handler.DBHandler;
+import at.htld.modules.handler.WeatherHandler;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -72,6 +74,16 @@ public class HTLDTelegramBot extends TelegramLongPollingBot {
 
                         sd.setText("Station gespeichert");
                     }else{sd.setText("Verwendung: /addstation [Name] [Link]");}
+                }else if(split_message.get(0).equals("/wetter")){
+                    if(split_message.size() == 2) {
+                        try {
+                            sd.setText(getWetterByCity(split_message.get(1)));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+                        sd.setText("Verwendung: /wetter [Ort]");
+                    }
                 }else{
                     sd.setText("Befehle : /whoami ..");
                 }
@@ -84,6 +96,16 @@ public class HTLDTelegramBot extends TelegramLongPollingBot {
         }catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getWetterByCity(String s) throws IOException {
+        WeatherHandler handler = new WeatherHandler();
+        String[] res = new String[2];
+        double temp;
+        res = handler.getWeatherByCity(s).split(" ");
+        temp = Double.parseDouble(res[1]);
+        temp = ((temp - 32)*5)/9;
+        return res[0] + " " + temp;
     }
 
     public String getBotUsername() {
