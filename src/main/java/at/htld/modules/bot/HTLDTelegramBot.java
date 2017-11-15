@@ -37,12 +37,12 @@ public class HTLDTelegramBot extends TelegramLongPollingBot {
             Hier wird nachgeschaut ob ein User mit der Chat id exestiert, wenn dies nicht der Fall ist
             muss man seinen Benutzer konfigurieren
              */
-            if(d.getUserByChatId(chat_id) == null){
-                if(!split_message.get(0).equals("/config"))
-                sd.setText("Konfigurieren sie Ihren Benutzer mit /config");
+            if (d.getUserByChatId(chat_id) == null) {
+                if (!split_message.get(0).equals("/config"))
+                    sd.setText("Konfigurieren sie Ihren Benutzer mit /config");
 
-                if(split_message.get(0).equals("/config")){
-                    if(split_message.size() == 4) {
+                if (split_message.get(0).equals("/config")) {
+                    if (split_message.size() == 4) {
                         user = new User();
                         user.setChat_id(chat_id);
                         user.setVname(split_message.get(1));
@@ -52,19 +52,17 @@ public class HTLDTelegramBot extends TelegramLongPollingBot {
                         d.saveUser(user);
                         user = d.getUserByChatId(chat_id);
                         sd.setText("Name: " + user.getVname() + " Nachname: " + user.getNname() + " Klasse: " + user.getKlass());
-                    }
-                    else{
+                    } else {
                         sd.setText("Verwendung: /config [Vorname] [Nachname] [Klasse]");
                     }
                 }
-            }
-            else{
+            } else {
                 user = d.getUserByChatId(chat_id);
 
-                if(split_message.get(0).equals("/whoami")){
+                if (split_message.get(0).equals("/whoami")) {
                     sd.setText("Name: " + user.getVname() + " Nachname: " + user.getNname() + " Klasse: " + user.getKlass());
-                }else if(split_message.get(0).equals("/addstation")){
-                    if(split_message.size() == 3) {
+                } else if (split_message.get(0).equals("/addstation")) {
+                    if (split_message.size() == 3) {
                         Station station = new Station();
                         station.setChat_id(chat_id);
                         station.setDstation(split_message.get(1));
@@ -73,18 +71,22 @@ public class HTLDTelegramBot extends TelegramLongPollingBot {
                         d.saveStation(station);
 
                         sd.setText("Station gespeichert");
-                    }else{sd.setText("Verwendung: /addstation [Name] [Link]");}
-                }else if(split_message.get(0).equals("/wetter")){
-                    if(split_message.size() == 2) {
+                    } else {
+                        sd.setText("Verwendung: /addstation [Name] [Link]");
+                    }
+                } else if (split_message.get(0).equals("/wetter")) {
+                    if (split_message.size() == 2) {
                         try {
                             sd.setText(getWetterByCity(split_message.get(1)));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    }else{
+                    } else {
                         sd.setText("Verwendung: /wetter [Ort]");
                     }
-                }else{
+                } else if (split_message.get(0).equals("/stationen")) {
+                    sd.setText(getSavedStationsByID(chat_id));
+                } else {
                     sd.setText("Befehle : /whoami ..");
                 }
             }
@@ -93,9 +95,26 @@ public class HTLDTelegramBot extends TelegramLongPollingBot {
             sendMessage(sd);
         } catch (TelegramApiException e) {
             e.printStackTrace();
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getSavedStationsByID(long chat_id) {
+        ArrayList<Station> st = new ArrayList<Station>();
+        String s = "";
+        try {
+            st = d.getStationByChatId(chat_id);
+
+            for(int i = 0; i < st.size(); i++){
+                s += st.get(i).getS_id() + " " + st.get(i).getDstation() + " " + st.get(i).getSlink() + "\n";
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return s;
     }
 
     private String getWetterByCity(String s) throws IOException {
@@ -104,7 +123,7 @@ public class HTLDTelegramBot extends TelegramLongPollingBot {
         double temp;
         res = handler.getWeatherByCity(s).split(" ");
         temp = Double.parseDouble(res[1]);
-        temp = ((temp - 32)*5)/9;
+        temp = ((temp - 32) * 5) / 9;
         return res[0] + " " + temp;
     }
 

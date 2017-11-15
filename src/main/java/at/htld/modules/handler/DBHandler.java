@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class DBHandler extends DBConnection {
     Connection con;
@@ -48,6 +49,33 @@ public class DBHandler extends DBConnection {
         }
 
         return u;
+    }
+
+    public ArrayList<Station> getStationByChatId(long chat_id) throws SQLException {
+        PreparedStatement pstmt;
+        ArrayList<Station> stations = new ArrayList<Station>();
+        ResultSet rset;
+        DBHandler transFound = null;
+
+        try {
+            pstmt = con
+                    .prepareStatement("select * from Station WHERE chat_id =" + chat_id );
+            rset = pstmt.executeQuery();
+
+            while (rset.next()) {
+                Station station = new Station();
+
+                station.setChat_id(rset.getLong("chat_id"));
+                station.setS_id(rset.getInt("s_id"));
+                station.setDstation(rset.getString("dstation"));
+                station.setSlink(rset.getString("slink"));
+                stations.add(station);
+            }
+        } finally {
+
+        }
+
+        return stations;
     }
 
     public void saveUser(User u){

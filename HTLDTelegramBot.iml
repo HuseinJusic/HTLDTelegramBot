@@ -11,6 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: net.aksingh:owm-japis:2.5.0.3" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:6.0.6" level="project" />
     <orderEntry type="library" name="Maven: org.telegram:telegrambots:3.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.telegram:telegrambots-meta:3.0.2" level="project" />
