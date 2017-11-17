@@ -78,6 +78,28 @@ public class DBHandler extends DBConnection {
         return stations;
     }
 
+    public String getStationLinkById(int sid) throws SQLException {
+        PreparedStatement pstmt;
+        String url = "";
+        ResultSet rset;
+        DBHandler transFound = null;
+
+        try {
+            pstmt = con
+                    .prepareStatement("select slink from Station WHERE s_id =" + sid );
+            rset = pstmt.executeQuery();
+
+
+            if(rset.next()) {
+                url = rset.getString("slink");
+            }
+        } finally {
+
+        }
+
+        return url;
+    }
+
     public void saveUser(User u){
         PreparedStatement pstmt;
 

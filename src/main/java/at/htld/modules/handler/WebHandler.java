@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class WebHandler {
 
@@ -22,5 +23,18 @@ public class WebHandler {
 
 
         return ziel + planAbfahrt;
+    }
+
+    public ArrayList<String> getStationDataByLink(String url) throws IOException {
+        final Document document = Jsoup.connect(url).get();
+        ArrayList<String> planAbfahrt = new ArrayList<String>();
+        String ziel = "";
+
+        for (Element row : document.select("table.cinfo")) {
+            planAbfahrt.add(row.selectFirst("tr.li_odd td.bbottom.sc_zeit.bright").text() + " " +  row.selectFirst("tr.li_odd td.bbottom.sc_zeit.bright.bold").text());
+            planAbfahrt.add(row.selectFirst("tr.li_even td.bbottom.sc_zeit.bright").text() + " " + row.selectFirst("tr.li_even td.bbottom.sc_zeit.bright.bold").text());
+        }
+
+        return planAbfahrt;
     }
 }

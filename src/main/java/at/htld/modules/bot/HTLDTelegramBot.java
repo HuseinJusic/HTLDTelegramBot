@@ -4,6 +4,7 @@ import at.htld.modules.entitiy.Station;
 import at.htld.modules.entitiy.User;
 import at.htld.modules.handler.DBHandler;
 import at.htld.modules.handler.WeatherHandler;
+import at.htld.modules.handler.WebHandler;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -86,6 +87,18 @@ public class HTLDTelegramBot extends TelegramLongPollingBot {
                     }
                 } else if (split_message.get(0).equals("/stationen")) {
                     sd.setText(getSavedStationsByID(chat_id));
+                } else if (split_message.get(0).equals("/abfahrt")) {
+                    if (split_message.size() == 2) {
+                        try {
+                            sd.setText(getAbfahrtData(Integer.parseInt(split_message.get(1))));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        sd.setText("Verwendung: /stationen [station id]");
+                    }
+
+
                 } else {
                     sd.setText("Befehle :  \n" +
                             "/whoami \n" +
@@ -110,7 +123,7 @@ public class HTLDTelegramBot extends TelegramLongPollingBot {
         try {
             st = d.getStationByChatId(chat_id);
 
-            for(int i = 0; i < st.size(); i++){
+            for (int i = 0; i < st.size(); i++) {
                 s += st.get(i).getS_id() + " " + st.get(i).getDstation() + " " + st.get(i).getSlink() + "\n";
             }
 
@@ -137,5 +150,19 @@ public class HTLDTelegramBot extends TelegramLongPollingBot {
 
     public String getBotToken() {
         return "454919011:AAEopk6fvCDtsjAArMQJ6u3fQishj3aposk";
+    }
+
+    public String getAbfahrtData(int id) throws Exception {
+        ArrayList<String> abfahrtData = new ArrayList<String>();
+        WebHandler webHandler = new WebHandler();
+        String res = "";
+
+        abfahrtData = webHandler.getStationDataByLink(d.getStationLinkById(id));
+
+        for(int i = 0; i< abfahrtData.size(); i++){
+            res += abfahrtData.get(i) + "\n";
+        }
+
+        return res;
     }
 }
