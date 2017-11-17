@@ -15,9 +15,14 @@ public class WeatherHandler {
         owm = new OpenWeatherMap("c621c449fdadcabea70ebc79e8e3abf9");
     }
 
-    public String getWeatherByCity(String cname) throws IOException {
+    public String getWeatherByCity(String cname) {
 
-        CurrentWeather cwd = owm.currentWeatherByCityName(cname);
+        CurrentWeather cwd = null;
+        try {
+            cwd = owm.currentWeatherByCityName(cname);
+        } catch (IOException e) {
+            return "Stadt nicht gefunden";
+        }
         return "Temperatur: " + cwd.getMainInstance().getMaxTemperature();
 
     }

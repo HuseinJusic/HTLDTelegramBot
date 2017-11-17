@@ -87,7 +87,11 @@ public class HTLDTelegramBot extends TelegramLongPollingBot {
                 } else if (split_message.get(0).equals("/stationen")) {
                     sd.setText(getSavedStationsByID(chat_id));
                 } else {
-                    sd.setText("Befehle : /whoami ..");
+                    sd.setText("Befehle :  \n" +
+                            "/whoami \n" +
+                            "/addstation \n" +
+                            "/stationen \n" +
+                            "/wetter \n");
                 }
             }
 
